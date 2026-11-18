@@ -1,71 +1,107 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CarValue AI | Intelligent Car Valuation</title>
 
-    <title>CarValue AI | Car Price Prediction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
 
-    <style>
- /* =================================
-   CARVALUE AI - MIDNIGHT LUXURY
-================================= */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Arial, sans-serif;
+<style>
+:root {
+    --bg: #070b16;
+    --surface: #10182a;
+    --card: rgba(17, 27, 47, .88);
+    --text: #f1f5ff;
+    --muted: #91a1bd;
+    --border: rgba(115, 153, 220, .17);
+    --blue: #368bff;
+    --cyan: #28e0e8;
+    --purple: #9165ff;
+    --input: #0a1222;
+    --shadow: 0 20px 70px rgba(0,0,0,.3);
 }
+
+[data-theme="light"] {
+    --bg: #f0f5ff;
+    --surface: #ffffff;
+    --card: rgba(255,255,255,.95);
+    --text: #14213b;
+    --muted: #66758f;
+    --border: rgba(45,85,150,.17);
+    --input: #f5f8ff;
+    --shadow: 0 20px 60px rgba(30,60,110,.09);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
 
 body {
-    --background: #090a0c;
-    --card: #141518;
-    --input: #1c1d20;
-    --text: #f5f0e6;
-    --muted: #aaa49a;
-    --border: #38342b;
-    --accent: #d6b56d;
-    --gold-light: #f3d99b;
-
-    background: var(--background);
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
     color: var(--text);
     min-height: 100vh;
-    transition: 0.4s;
+    transition: .3s;
+    overflow-x: hidden;
 }
 
-/* LIGHT MODE */
-
-body.light-mode {
-    --background: #f5f2eb;
-    --card: #ffffff;
-    --input: #f2efe8;
-    --text: #24221e;
-    --muted: #777064;
-    --border: #d8cfbd;
-    --accent: #9d762e;
-    --gold-light: #c69a48;
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background:
+        radial-gradient(ellipse at 15% 15%, rgba(54,139,255,.15), transparent 38%),
+        radial-gradient(ellipse at 85% 30%, rgba(145,101,255,.13), transparent 38%),
+        radial-gradient(ellipse at 50% 90%, rgba(40,224,232,.08), transparent 40%);
+    pointer-events: none;
 }
 
-/* HEADER */
+#particles {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
 
 header {
-    padding: 24px 8%;
+    height: 82px;
+    padding: 0 7%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: var(--card);
     border-bottom: 1px solid var(--border);
-    flex-wrap: wrap;
-    gap: 18px;
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(18px);
 }
 
 .logo {
-    font-size: 27px;
-    font-weight: 800;
-    letter-spacing: 1px;
-    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 25px;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.logo-icon {
+    color: var(--cyan);
+    font-size: 29px;
+}
+
+.logo span {
+    background: linear-gradient(100deg, var(--cyan), var(--blue), var(--purple));
+    -webkit-background-clip: text;
+    color: transparent;
 }
 
 nav {
@@ -75,662 +111,709 @@ nav {
 }
 
 nav a {
-    color: var(--text);
+    color: var(--muted);
     text-decoration: none;
     font-size: 14px;
-    letter-spacing: 1px;
-    transition: 0.3s;
+    font-weight: 600;
+    transition: .2s;
 }
 
-nav a:hover {
-    color: var(--accent);
-}
+nav a:hover { color: var(--cyan); }
 
-.theme-button {
-    padding: 10px 16px;
-    background: transparent;
-    border: 1px solid var(--accent);
+.theme-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 11px 17px;
     border-radius: 30px;
-    color: var(--accent);
     cursor: pointer;
-    transition: 0.3s;
+    font-family: inherit;
 }
-
-.theme-button:hover {
-    background: var(--accent);
-    color: #090a0c;
-}
-
-/* HERO SECTION */
 
 .hero {
     text-align: center;
-    padding: 95px 20px 65px;
-    background:
-        radial-gradient(
-            ellipse at top,
-            rgba(214,181,109,0.13),
-            transparent 65%
-        );
+    padding: 95px 20px 60px;
+}
+
+.ai-badge {
+    display: inline-flex;
+    gap: 9px;
+    align-items: center;
+    border: 1px solid rgba(40,224,232,.35);
+    color: var(--cyan);
+    background: rgba(40,224,232,.07);
+    padding: 9px 17px;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 27px;
+}
+
+.pulse {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 12px var(--cyan);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    50% { opacity: .3; transform: scale(.7); }
 }
 
 .hero h1 {
-    font-size: clamp(32px, 5vw, 55px);
-    font-weight: 700;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
+    font-size: clamp(37px, 6vw, 67px);
+    font-weight: 900;
+    letter-spacing: -3px;
+    line-height: 1.12;
+    margin-bottom: 23px;
 }
 
-.hero span {
-    color: var(--accent);
+.gradient-text {
+    background: linear-gradient(100deg, var(--cyan), var(--blue), var(--purple));
+    -webkit-background-clip: text;
+    color: transparent;
 }
 
 .hero p {
+    max-width: 650px;
+    margin: auto;
     color: var(--muted);
+    line-height: 1.8;
     font-size: 16px;
-    letter-spacing: 1px;
-    line-height: 1.7;
 }
 
-/* MAIN FORM CONTAINER */
+.hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 45px;
+    margin-top: 38px;
+    flex-wrap: wrap;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.stat i { color: var(--cyan); }
 
 .container {
-    max-width: 1000px;
-    width: calc(100% - 36px);
-    margin: 20px auto 70px;
-    padding: 45px;
+    width: min(1120px, 91%);
+    margin: 0 auto 90px;
+}
+
+.panel {
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 18px;
-
-    box-shadow:
-        0 20px 60px rgba(0,0,0,0.35),
-        0 0 25px rgba(214,181,109,0.04);
-
-    animation: fadeIn 0.8s ease;
+    border-radius: 25px;
+    padding: 42px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(20px);
 }
 
-.container h2 {
-    color: var(--accent);
-    font-size: 23px;
-    margin-bottom: 32px;
-    letter-spacing: 0.5px;
+.panel-heading {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 12px;
 }
 
-/* FORM GRID */
+.heading-icon {
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: rgba(54,139,255,.13);
+    color: var(--cyan);
+}
+
+.panel-heading h2 { font-size: 23px; }
+
+.panel-subtitle {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 35px;
+}
+
+.section-label {
+    font-size: 12px;
+    letter-spacing: 1.8px;
+    color: var(--cyan);
+    font-weight: 800;
+    margin: 30px 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.section-label::after {
+    content: "";
+    height: 1px;
+    flex: 1;
+    background: var(--border);
+}
 
 .form-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 25px;
+    gap: 23px 27px;
 }
 
-label {
-    display: block;
-    margin-bottom: 10px;
-    color: var(--muted);
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.field label {
     font-size: 13px;
     font-weight: 600;
-    letter-spacing: 0.7px;
-}
-
-/* INPUTS */
-
-input,
-select {
-    width: 100%;
-    padding: 15px;
-    border: 1px solid var(--border);
-    border-radius: 9px;
-
-    background: var(--input);
     color: var(--text);
+}
 
-    outline: none;
+.field input, .field select {
+    width: 100%;
+    height: 55px;
+    padding: 0 17px;
+    border-radius: 11px;
+    background: var(--input);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: inherit;
     font-size: 14px;
-
-    transition: all 0.3s ease;
+    outline: none;
+    transition: .25s;
 }
 
-input::placeholder {
-    color: #77736b;
+.field input::placeholder { color: var(--muted); opacity: .75; }
+
+.field select option {
+    background: var(--surface);
+    color: var(--text);
 }
 
-input:focus,
-select:focus {
-    border-color: var(--accent);
-
-    box-shadow:
-        0 0 0 3px rgba(214,181,109,0.12);
-
-    transform: translateY(-2px);
+.field input:focus, .field select:focus {
+    border-color: var(--cyan);
+    box-shadow: 0 0 0 3px rgba(40,224,232,.1);
 }
 
-/* BUTTONS */
-
-.buttons {
+.actions {
     display: flex;
     gap: 15px;
-    margin-top: 35px;
+    margin-top: 38px;
 }
 
-button {
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.predict-button {
-    flex: 2;
-    padding: 17px;
-    border: none;
-    border-radius: 9px;
-
-    background: linear-gradient(
-        135deg,
-        #b18a43,
-        #f0d18b,
-        #b18a43
-    );
-
-    color: #17130b;
-    font-size: 16px;
-    font-weight: 800;
-    letter-spacing: 0.8px;
-
-    box-shadow:
-        0 6px 20px rgba(214,181,109,0.15);
-}
-
-.predict-button:hover {
-    transform: translateY(-3px);
-
-    box-shadow:
-        0 10px 30px rgba(214,181,109,0.3);
-}
-
-.reset-button {
+.predict-btn {
     flex: 1;
-    padding: 17px;
-    border: 1px solid var(--border);
-    border-radius: 9px;
-
-    background: transparent;
-    color: var(--text);
+    min-height: 58px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(105deg, #2479fa, #6957ed, #13c8d7);
+    color: white;
     font-size: 15px;
+    font-weight: 800;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 8px 30px rgba(54,139,255,.25);
+    transition: .25s;
 }
 
-.reset-button:hover {
-    border-color: var(--accent);
-    color: var(--accent);
+.predict-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(54,139,255,.4);
 }
 
-/* PREDICTION RESULT */
+.predict-btn:disabled { opacity: .7; cursor: wait; }
+
+.reset-btn {
+    padding: 0 25px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-family: inherit;
+    cursor: pointer;
+}
 
 .result {
-    margin-top: 40px;
-    padding: 40px 20px;
+    margin-top: 35px;
+    border: 1px solid rgba(40,224,232,.35);
+    border-radius: 19px;
+    padding: 32px;
     text-align: center;
-
-    background: linear-gradient(
-        135deg,
-        #12372c,
-        #07513d
-    );
-
-    border: 1px solid #b99a57;
-    border-radius: 15px;
-
-    box-shadow:
-        0 10px 35px rgba(0,0,0,0.25);
-
-    animation: popIn 0.7s ease;
+    background: linear-gradient(130deg, rgba(40,224,232,.09), rgba(54,139,255,.12), rgba(145,101,255,.1));
+    animation: appear .6s ease;
 }
 
-.result h2 {
-    color: #e9d29c;
-    font-size: 23px;
-    margin-bottom: 15px;
+@keyframes appear {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.result h1 {
-    color: #f3d99b;
-    font-size: clamp(35px, 6vw, 55px);
-    margin: 15px 0;
-    font-weight: 800;
-    letter-spacing: 1px;
+.result-icon {
+    color: var(--cyan);
+    margin-bottom: 12px;
 }
 
-.result p {
-    color: #d4e6dc;
+.result h3 {
     font-size: 15px;
+    color: var(--muted);
+    margin-bottom: 12px;
 }
 
-/* ERROR MESSAGE */
+.price {
+    font-size: clamp(30px, 5vw, 48px);
+    font-weight: 900;
+    background: linear-gradient(90deg, var(--cyan), var(--blue));
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 12px;
+}
+
+.result p { color: var(--muted); font-size: 13px; }
 
 .error {
     margin-top: 25px;
     padding: 17px;
-    background: #651f1f;
-    color: white;
-    border: 1px solid #a94444;
-    border-radius: 9px;
+    border: 1px solid rgba(255,90,110,.4);
+    background: rgba(255,90,110,.08);
+    color: #ff8495;
+    border-radius: 12px;
+    font-size: 14px;
 }
 
-/* LOADING SCREEN */
-
-.loading {
-    display: none;
-    position: fixed;
-    inset: 0;
-
-    background: rgba(5,5,5,0.94);
-
-    z-index: 1000;
-
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+.features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
-
-    color: #f3d99b;
+    margin-top: 35px;
 }
 
-.spinner {
-    width: 58px;
-    height: 58px;
-
-    border: 5px solid #38342b;
-    border-top: 5px solid #d6b56d;
-
-    border-radius: 50%;
-
-    animation: spin 0.8s linear infinite;
+.feature {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    padding: 25px;
+    transition: .3s;
 }
 
-.loading p {
-    font-size: 17px;
-    letter-spacing: 1px;
+.feature:hover {
+    transform: translateY(-5px);
+    border-color: rgba(40,224,232,.4);
 }
 
-/* FOOTER */
+.feature-icon {
+    color: var(--cyan);
+    margin-bottom: 17px;
+}
+
+.feature h3 { font-size: 15px; margin-bottom: 9px; }
+
+.feature p {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.7;
+}
 
 footer {
+    border-top: 1px solid var(--border);
     text-align: center;
     padding: 30px 15px;
-
-    background: var(--card);
-    border-top: 1px solid var(--border);
-
     color: var(--muted);
-    font-size: 13px;
-    letter-spacing: 0.5px;
+    font-size: 12px;
+    line-height: 2;
 }
 
-/* ANIMATIONS */
+footer span { color: var(--cyan); }
 
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
+@media(max-width: 700px) {
+    header { padding: 0 5%; height: 70px; }
+    .logo { font-size: 20px; }
+    nav { gap: 13px; }
+    nav a { font-size: 12px; }
+    .theme-btn { padding: 9px 11px; font-size: 12px; }
+    .hero { padding: 75px 20px 45px; }
+    .hero h1 { letter-spacing: -1.5px; }
+    .hero-stats { gap: 17px; }
+    .panel { padding: 25px 19px; }
+    .form-grid { grid-template-columns: 1fr; }
+    .features { grid-template-columns: 1fr; }
+    .actions { flex-direction: column; }
+    .reset-btn { min-height: 50px; }
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+@media(max-width: 380px) {
+    nav { gap: 8px; }
+    nav a { font-size: 11px; }
+    .theme-btn { padding: 8px; }
 }
-
-@keyframes popIn {
-    from {
-        opacity: 0;
-        transform: scale(0.94);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* RESPONSIVE DESIGN */
-
-@media (max-width: 650px) {
-
-    header {
-        flex-direction: column;
-        padding: 22px;
-    }
-
-    nav {
-        gap: 15px;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .hero {
-        padding: 60px 18px 40px;
-    }
-
-    .container {
-        padding: 25px 20px;
-        margin-bottom: 40px;
-    }
-
-    .form-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-
-    .buttons {
-        flex-direction: column;
-    }
-
-    .result {
-        padding: 30px 15px;
-    }
-}
-
-@media (max-width: 380px) {
-
-    .logo {
-        font-size: 22px;
-    }
-
-    nav {
-        gap: 10px;
-    }
-
-    .container {
-        padding: 18px 14px;
-    }
-}
-
-/* ACCESSIBILITY */
-
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-    }
-}
-    </style>
+</style>
 </head>
 
 <body>
 
-<header>
+<canvas id="particles"></canvas>
 
-    <div class="logo">🚗 CarValue AI</div>
+<header>
+    <div class="logo">
+        <span class="logo-icon">✧</span>
+        CarValue <span>AI</span>
+    </div>
 
     <nav>
-        <a href="/">Home</a>
+        <a href="#">Home</a>
         <a href="#predict">Predict Price</a>
-
-        <button class="theme-button" type="button" onclick="toggleTheme()">
-            🌙 Theme
+        <button class="theme-btn" id="themeToggle" type="button">
+            ☀ Light
         </button>
     </nav>
-
 </header>
-
 
 <section class="hero">
 
-    <h1>Discover Your Car's <span>True Value</span></h1>
+    <div class="ai-badge">
+        <span class="pulse"></span>
+        INTELLIGENT CAR VALUATION SYSTEM
+    </div>
+
+    <h1>
+        Discover Your Car's<br>
+        <span class="gradient-text">True Value.</span>
+    </h1>
 
     <p>
-        Smart Used Car Price Prediction Powered by Machine Learning
+        Experience smarter car valuation powered by Machine Learning.
+        Enter your vehicle details and let our prediction model
+        estimate its market value in seconds.
     </p>
+
+    <div class="hero-stats">
+        <div class="stat"><i data-lucide="brain-circuit"></i> ML Powered</div>
+        <div class="stat"><i data-lucide="zap"></i> Instant Estimation</div>
+        <div class="stat"><i data-lucide="shield-check"></i> Smart Valuation</div>
+    </div>
 
 </section>
 
+<main class="container" id="predict">
 
-<div class="container" id="predict">
+    <section class="panel">
 
-    <h2>Enter Your Car Details 🚘</h2>
-
-    <form action="/predict" method="POST" id="carForm">
-
-        <div class="form-grid">
-
-            <div>
-                <label>Car Name</label>
-                <input type="text" name="car_name"
-                       placeholder="Example: Maruti Swift"
-                       required>
+        <div class="panel-heading">
+            <div class="heading-icon">
+                <i data-lucide="car-front"></i>
             </div>
-
-            <div>
-                <label>Brand</label>
-                <input type="text" name="brand"
-                       placeholder="Example: Maruti"
-                       required>
-            </div>
-
-            <div>
-                <label>Model</label>
-                <input type="text" name="model"
-                       placeholder="Example: Swift VXI"
-                       required>
-            </div>
-
-            <div>
-                <label>Vehicle Age (Years)</label>
-                <input type="number" name="vehicle_age"
-                       min="0" max="100" step="1"
-                       placeholder="Example: 5"
-                       required>
-            </div>
-
-            <div>
-                <label>Kilometres Driven</label>
-                <input type="number" name="km_driven"
-                       min="0" step="1"
-                       placeholder="Example: 45000"
-                       required>
-            </div>
-
-            <div>
-                <label>Seller Type</label>
-                <select name="seller_type" required>
-                    <option value="">Select Seller Type</option>
-                    <option value="Individual">Individual</option>
-                    <option value="Dealer">Dealer</option>
-                    <option value="Trustmark Dealer">Trustmark Dealer</option>
-                </select>
-            </div>
-
-            <div>
-                <label>Fuel Type</label>
-                <select name="fuel_type" required>
-                    <option value="">Select Fuel</option>
-                    <option value="Petrol">Petrol</option>
-                    <option value="Diesel">Diesel</option>
-                    <option value="CNG">CNG</option>
-                    <option value="LPG">LPG</option>
-                    <option value="Electric">Electric</option>
-                </select>
-            </div>
-
-            <div>
-                <label>Transmission</label>
-                <select name="transmission_type" required>
-                    <option value="">Select Transmission</option>
-                    <option value="Manual">Manual</option>
-                    <option value="Automatic">Automatic</option>
-                </select>
-            </div>
-
-            <div>
-                <label>Mileage (km/l or km/kg)</label>
-                <input type="number" step="any"
-                       name="mileage" min="0"
-                       placeholder="Example: 20.5"
-                       required>
-            </div>
-
-            <div>
-                <label>Engine (CC)</label>
-                <input type="number" name="engine"
-                       min="1" step="1"
-                       placeholder="Example: 1197"
-                       required>
-            </div>
-
-            <div>
-                <label>Maximum Power (bhp)</label>
-                <input type="number" step="any"
-                       name="max_power" min="0"
-                       placeholder="Example: 82"
-                       required>
-            </div>
-
-            <div>
-                <label>Number of Seats</label>
-                <select name="seats" required>
-                    <option value="">Select Seats</option>
-                    <option value="2">2 Seats</option>
-                    <option value="4">4 Seats</option>
-                    <option value="5">5 Seats</option>
-                    <option value="6">6 Seats</option>
-                    <option value="7">7 Seats</option>
-                    <option value="8">8 Seats</option>
-                    <option value="9">9 Seats</option>
-                </select>
-            </div>
-
+            <h2>Vehicle Intelligence Input</h2>
         </div>
 
+        <p class="panel-subtitle">
+            Provide accurate vehicle information for a better prediction.
+        </p>
 
-        <div class="buttons">
+        <form action="/predict" method="POST" id="carForm">
 
-            <button type="submit" class="predict-button" id="predictBtn">
-                Predict Car Price 🚀
-            </button>
+            <div class="section-label">01 / VEHICLE IDENTITY</div>
 
-            <button type="reset" class="reset-button">
-                Clear Form ↺
-            </button>
+            <div class="form-grid">
+
+                <div class="field">
+                    <label>Car Name</label>
+                    <input type="text" name="car_name"
+                        placeholder="Example: Maruti Swift" required>
+                </div>
+
+                <div class="field">
+                    <label>Brand</label>
+                    <input type="text" name="brand"
+                        placeholder="Example: Maruti" required>
+                </div>
+
+                <div class="field">
+                    <label>Model</label>
+                    <input type="text" name="model"
+                        placeholder="Example: Swift VXI" required>
+                </div>
+
+                <div class="field">
+                    <label>Vehicle Age (Years)</label>
+                    <input type="number" name="vehicle_age"
+                        min="0" placeholder="Example: 5" required>
+                </div>
+
+            </div>
+
+            <div class="section-label">02 / VEHICLE CONDITION</div>
+
+            <div class="form-grid">
+
+                <div class="field">
+                    <label>Kilometres Driven</label>
+                    <input type="number" name="km_driven"
+                        min="0" placeholder="Example: 45000" required>
+                </div>
+
+                <div class="field">
+                    <label>Seller Type</label>
+                    <select name="seller_type" required>
+                        <option value="">Select Seller Type</option>
+                        <option value="Individual">Individual</option>
+                        <option value="Dealer">Dealer</option>
+                        <option value="Trustmark Dealer">Trustmark Dealer</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Fuel Type</label>
+                    <select name="fuel_type" required>
+                        <option value="">Select Fuel</option>
+                        <option value="Petrol">Petrol</option>
+                        <option value="Diesel">Diesel</option>
+                        <option value="CNG">CNG</option>
+                        <option value="LPG">LPG</option>
+                        <option value="Electric">Electric</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Transmission</label>
+                    <select name="transmission_type" required>
+                        <option value="">Select Transmission</option>
+                        <option value="Manual">Manual</option>
+                        <option value="Automatic">Automatic</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="section-label">03 / TECHNICAL SPECIFICATIONS</div>
+
+            <div class="form-grid">
+
+                <div class="field">
+                    <label>Mileage (km/l or km/kg)</label>
+                    <input type="number" step="any" name="mileage"
+                        min="0" placeholder="Example: 20.5" required>
+                </div>
+
+                <div class="field">
+                    <label>Engine Capacity (CC)</label>
+                    <input type="number" name="engine"
+                        min="0" placeholder="Example: 1197" required>
+                </div>
+
+                <div class="field">
+                    <label>Maximum Power (bhp)</label>
+                    <input type="number" step="any" name="max_power"
+                        min="0" placeholder="Example: 82" required>
+                </div>
+
+                <div class="field">
+                    <label>Number of Seats</label>
+                    <select name="seats" required>
+                        <option value="">Select Seats</option>
+                        <option value="2">2 Seats</option>
+                        <option value="4">4 Seats</option>
+                        <option value="5">5 Seats</option>
+                        <option value="6">6 Seats</option>
+                        <option value="7">7 Seats</option>
+                        <option value="8">8 Seats</option>
+                        <option value="9">9 Seats</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="actions">
+
+                <button class="predict-btn" type="submit" id="predictBtn">
+                    <span id="btnText">✦ Generate AI Price Prediction</span>
+                </button>
+
+                <button class="reset-btn" type="reset">
+                    Clear Form
+                </button>
+
+            </div>
+
+        </form>
+
+        {% if prediction is not none %}
+        <div class="result" id="result">
+
+            <div class="result-icon">
+                <i data-lucide="sparkles" width="35" height="35"></i>
+            </div>
+
+            <h3>YOUR ESTIMATED CAR VALUE</h3>
+
+            <div class="price">₹ {{ prediction|inr }}</div>
+
+            <p>Prediction generated using your trained Machine Learning model.</p>
 
         </div>
+        {% endif %}
 
-    </form>
+        {% if error %}
+        <div class="error">
+            ⚠ {{ error }}
+        </div>
+        {% endif %}
 
+    </section>
 
-    {% if prediction is not none %}
+    <section class="features">
 
-    <div class="result">
+        <div class="feature">
+            <div class="feature-icon">
+                <i data-lucide="brain-circuit" width="28"></i>
+            </div>
+            <h3>Machine Learning</h3>
+            <p>Uses a trained prediction model to estimate used car prices from vehicle specifications.</p>
+        </div>
 
-        <h2>🎉 Estimated Car Price</h2>
+        <div class="feature">
+            <div class="feature-icon">
+                <i data-lucide="activity" width="28"></i>
+            </div>
+            <h3>Smart Analysis</h3>
+            <p>Evaluates important vehicle characteristics to generate an estimated selling price.</p>
+        </div>
 
-       <h1>₹ {{ prediction | inr }}</h1>
+        <div class="feature">
+            <div class="feature-icon">
+                <i data-lucide="gauge" width="28"></i>
+            </div>
+            <h3>Instant Results</h3>
+            <p>Get your estimated vehicle value through a simple and interactive interface.</p>
+        </div>
 
-        <p>Your car's predicted selling price</p>
+    </section>
 
-    </div>
-
-    {% endif %}
-
-
-    {% if error %}
-
-    <div class="error">
-        ⚠️ {{ error }}
-    </div>
-
-    {% endif %}
-
-</div>
-
-
-<!-- Loading screen -->
-
-<div class="loading" id="loadingScreen">
-
-    <div class="spinner"></div>
-
-    <p>Calculating your car's value...</p>
-
-    <p>Please wait!</p>
-
-</div>
-
+</main>
 
 <footer>
-
-    <p>© 2026 CarValue AI | Machine Learning Based Car Price Prediction</p>
-
+    <p>© 2026 <span>CarValue AI</span> | Intelligent Car Price Prediction</p>
+    <p>Powered by Machine Learning • Built for Smarter Valuation</p>
 </footer>
 
-
 <script>
+lucide.createIcons();
 
-    // Dark and light mode
+// Theme toggle
+const themeToggle = document.getElementById("themeToggle");
 
-    function toggleTheme() {
+if (localStorage.getItem("carTheme") === "light") {
+    document.documentElement.setAttribute("data-theme", "light");
+    themeToggle.textContent = "☾ Dark";
+}
 
-        document.body.classList.toggle("light-mode");
+themeToggle.addEventListener("click", () => {
+    const isLight =
+        document.documentElement.getAttribute("data-theme") === "light";
 
-        const isLight = document.body.classList.contains("light-mode");
-
-        localStorage.setItem("carvalue-theme", isLight ? "light" : "dark");
-
-        document.querySelector(".theme-button").textContent =
-            isLight ? "☀️ Theme" : "🌙 Theme";
-
+    if (isLight) {
+        document.documentElement.removeAttribute("data-theme");
+        localStorage.setItem("carTheme", "dark");
+        themeToggle.textContent = "☀ Light";
+    } else {
+        document.documentElement.setAttribute("data-theme", "light");
+        localStorage.setItem("carTheme", "light");
+        themeToggle.textContent = "☾ Dark";
     }
+});
 
+// Prediction loading animation
+document.getElementById("carForm").addEventListener("submit", function(e) {
+    if (!this.checkValidity()) return;
 
-    // Restore saved theme
+    const button = document.getElementById("predictBtn");
+    const text = document.getElementById("btnText");
 
-    if (localStorage.getItem("carvalue-theme") === "light") {
+    button.disabled = true;
+    text.textContent = "⟳ Analysing Vehicle Data...";
+});
 
-        document.body.classList.add("light-mode");
+// Neural network particle animation
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
 
-        document.querySelector(".theme-button").textContent = "☀️ Theme";
+let particles = [];
 
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    particles = [];
+
+    const count = Math.min(65, Math.floor(window.innerWidth / 20));
+
+    for (let i = 0; i < count; i++) {
+        particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            vx: (Math.random() - 0.5) * 0.35,
+            vy: (Math.random() - 0.5) * 0.35
+        });
     }
+}
 
+function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Loading animation when submitting
+    for (let i = 0; i < particles.length; i++) {
+        let p = particles[i];
 
-    document.getElementById("carForm").addEventListener("submit", function(event) {
+        p.x += p.vx;
+        p.y += p.vy;
 
-        if (!this.checkValidity()) {
-            return;
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(40,224,232,0.55)";
+        ctx.fill();
+
+        for (let j = i + 1; j < particles.length; j++) {
+            let q = particles[j];
+            let dx = p.x - q.x;
+            let dy = p.y - q.y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 115) {
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(q.x, q.y);
+                ctx.strokeStyle =
+                    `rgba(54,139,255,${0.12 * (1 - distance / 115)})`;
+                ctx.stroke();
+            }
         }
+    }
 
-        document.getElementById("loadingScreen").style.display = "flex";
+    requestAnimationFrame(animateParticles);
+}
 
-        const button = document.getElementById("predictBtn");
+window.addEventListener("resize", resizeCanvas);
 
-        button.disabled = true;
+resizeCanvas();
+animateParticles();
 
-        button.textContent = "Predicting...";
+// Scroll to prediction result after form submission
+const result = document.getElementById("result");
 
-    });
-
-
-    // Reset button behaviour
-
-    document.getElementById("carForm").addEventListener("reset", function() {
-
-        const button = document.getElementById("predictBtn");
-
-        button.disabled = false;
-
-        button.textContent = "Predict Car Price 🚀";
-
-    });
-
+if (result) {
+    setTimeout(() => {
+        result.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 300);
+}
 </script>
 
 </body>
