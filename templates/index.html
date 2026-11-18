@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CarValue AI | Car Price Prediction</title>
+
+    <style>
+ /* =================================
+   CARVALUE AI - MIDNIGHT LUXURY
+================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+    --background: #090a0c;
+    --card: #141518;
+    --input: #1c1d20;
+    --text: #f5f0e6;
+    --muted: #aaa49a;
+    --border: #38342b;
+    --accent: #d6b56d;
+    --gold-light: #f3d99b;
+
+    background: var(--background);
+    color: var(--text);
+    min-height: 100vh;
+    transition: 0.4s;
+}
+
+/* LIGHT MODE */
+
+body.light-mode {
+    --background: #f5f2eb;
+    --card: #ffffff;
+    --input: #f2efe8;
+    --text: #24221e;
+    --muted: #777064;
+    --border: #d8cfbd;
+    --accent: #9d762e;
+    --gold-light: #c69a48;
+}
+
+/* HEADER */
+
+header {
+    padding: 24px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 18px;
+}
+
+.logo {
+    font-size: 27px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--accent);
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+nav a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 14px;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: var(--accent);
+}
+
+.theme-button {
+    padding: 10px 16px;
+    background: transparent;
+    border: 1px solid var(--accent);
+    border-radius: 30px;
+    color: var(--accent);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.theme-button:hover {
+    background: var(--accent);
+    color: #090a0c;
+}
+
+/* HERO SECTION */
+
+.hero {
+    text-align: center;
+    padding: 95px 20px 65px;
+    background:
+        radial-gradient(
+            ellipse at top,
+            rgba(214,181,109,0.13),
+            transparent 65%
+        );
+}
+
+.hero h1 {
+    font-size: clamp(32px, 5vw, 55px);
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+.hero span {
+    color: var(--accent);
+}
+
+.hero p {
+    color: var(--muted);
+    font-size: 16px;
+    letter-spacing: 1px;
+    line-height: 1.7;
+}
+
+/* MAIN FORM CONTAINER */
+
+.container {
+    max-width: 1000px;
+    width: calc(100% - 36px);
+    margin: 20px auto 70px;
+    padding: 45px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,0.35),
+        0 0 25px rgba(214,181,109,0.04);
+
+    animation: fadeIn 0.8s ease;
+}
+
+.container h2 {
+    color: var(--accent);
+    font-size: 23px;
+    margin-bottom: 32px;
+    letter-spacing: 0.5px;
+}
+
+/* FORM GRID */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 25px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.7px;
+}
+
+/* INPUTS */
+
+input,
+select {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+
+    background: var(--input);
+    color: var(--text);
+
+    outline: none;
+    font-size: 14px;
+
+    transition: all 0.3s ease;
+}
+
+input::placeholder {
+    color: #77736b;
+}
+
+input:focus,
+select:focus {
+    border-color: var(--accent);
+
+    box-shadow:
+        0 0 0 3px rgba(214,181,109,0.12);
+
+    transform: translateY(-2px);
+}
+
+/* BUTTONS */
+
+.buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 35px;
+}
+
+button {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.predict-button {
+    flex: 2;
+    padding: 17px;
+    border: none;
+    border-radius: 9px;
+
+    background: linear-gradient(
+        135deg,
+        #b18a43,
+        #f0d18b,
+        #b18a43
+    );
+
+    color: #17130b;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+
+    box-shadow:
+        0 6px 20px rgba(214,181,109,0.15);
+}
+
+.predict-button:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 10px 30px rgba(214,181,109,0.3);
+}
+
+.reset-button {
+    flex: 1;
+    padding: 17px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+
+    background: transparent;
+    color: var(--text);
+    font-size: 15px;
+}
+
+.reset-button:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* PREDICTION RESULT */
+
+.result {
+    margin-top: 40px;
+    padding: 40px 20px;
+    text-align: center;
+
+    background: linear-gradient(
+        135deg,
+        #12372c,
+        #07513d
+    );
+
+    border: 1px solid #b99a57;
+    border-radius: 15px;
+
+    box-shadow:
+        0 10px 35px rgba(0,0,0,0.25);
+
+    animation: popIn 0.7s ease;
+}
+
+.result h2 {
+    color: #e9d29c;
+    font-size: 23px;
+    margin-bottom: 15px;
+}
+
+.result h1 {
+    color: #f3d99b;
+    font-size: clamp(35px, 6vw, 55px);
+    margin: 15px 0;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.result p {
+    color: #d4e6dc;
+    font-size: 15px;
+}
+
+/* ERROR MESSAGE */
+
+.error {
+    margin-top: 25px;
+    padding: 17px;
+    background: #651f1f;
+    color: white;
+    border: 1px solid #a94444;
+    border-radius: 9px;
+}
+
+/* LOADING SCREEN */
+
+.loading {
+    display: none;
+    position: fixed;
+    inset: 0;
+
+    background: rgba(5,5,5,0.94);
+
+    z-index: 1000;
+
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+
+    color: #f3d99b;
+}
+
+.spinner {
+    width: 58px;
+    height: 58px;
+
+    border: 5px solid #38342b;
+    border-top: 5px solid #d6b56d;
+
+    border-radius: 50%;
+
+    animation: spin 0.8s linear infinite;
+}
+
+.loading p {
+    font-size: 17px;
+    letter-spacing: 1px;
+}
+
+/* FOOTER */
+
+footer {
+    text-align: center;
+    padding: 30px 15px;
+
+    background: var(--card);
+    border-top: 1px solid var(--border);
+
+    color: var(--muted);
+    font-size: 13px;
+    letter-spacing: 0.5px;
+}
+
+/* ANIMATIONS */
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: scale(0.94);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* RESPONSIVE DESIGN */
+
+@media (max-width: 650px) {
+
+    header {
+        flex-direction: column;
+        padding: 22px;
+    }
+
+    nav {
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .hero {
+        padding: 60px 18px 40px;
+    }
+
+    .container {
+        padding: 25px 20px;
+        margin-bottom: 40px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+
+    .result {
+        padding: 30px 15px;
+    }
+}
+
+@media (max-width: 380px) {
+
+    .logo {
+        font-size: 22px;
+    }
+
+    nav {
+        gap: 10px;
+    }
+
+    .container {
+        padding: 18px 14px;
+    }
+}
+
+/* ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">🚗 CarValue AI</div>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="#predict">Predict Price</a>
+
+        <button class="theme-button" type="button" onclick="toggleTheme()">
+            🌙 Theme
+        </button>
+    </nav>
+
+</header>
+
+
+<section class="hero">
+
+    <h1>Discover Your Car's <span>True Value</span></h1>
+
+    <p>
+        Smart Used Car Price Prediction Powered by Machine Learning
+    </p>
+
+</section>
+
+
+<div class="container" id="predict">
+
+    <h2>Enter Your Car Details 🚘</h2>
+
+    <form action="/predict" method="POST" id="carForm">
+
+        <div class="form-grid">
+
+            <div>
+                <label>Car Name</label>
+                <input type="text" name="car_name"
+                       placeholder="Example: Maruti Swift"
+                       required>
+            </div>
+
+            <div>
+                <label>Brand</label>
+                <input type="text" name="brand"
+                       placeholder="Example: Maruti"
+                       required>
+            </div>
+
+            <div>
+                <label>Model</label>
+                <input type="text" name="model"
+                       placeholder="Example: Swift VXI"
+                       required>
+            </div>
+
+            <div>
+                <label>Vehicle Age (Years)</label>
+                <input type="number" name="vehicle_age"
+                       min="0" max="100" step="1"
+                       placeholder="Example: 5"
+                       required>
+            </div>
+
+            <div>
+                <label>Kilometres Driven</label>
+                <input type="number" name="km_driven"
+                       min="0" step="1"
+                       placeholder="Example: 45000"
+                       required>
+            </div>
+
+            <div>
+                <label>Seller Type</label>
+                <select name="seller_type" required>
+                    <option value="">Select Seller Type</option>
+                    <option value="Individual">Individual</option>
+                    <option value="Dealer">Dealer</option>
+                    <option value="Trustmark Dealer">Trustmark Dealer</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Fuel Type</label>
+                <select name="fuel_type" required>
+                    <option value="">Select Fuel</option>
+                    <option value="Petrol">Petrol</option>
+                    <option value="Diesel">Diesel</option>
+                    <option value="CNG">CNG</option>
+                    <option value="LPG">LPG</option>
+                    <option value="Electric">Electric</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Transmission</label>
+                <select name="transmission_type" required>
+                    <option value="">Select Transmission</option>
+                    <option value="Manual">Manual</option>
+                    <option value="Automatic">Automatic</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Mileage (km/l or km/kg)</label>
+                <input type="number" step="any"
+                       name="mileage" min="0"
+                       placeholder="Example: 20.5"
+                       required>
+            </div>
+
+            <div>
+                <label>Engine (CC)</label>
+                <input type="number" name="engine"
+                       min="1" step="1"
+                       placeholder="Example: 1197"
+                       required>
+            </div>
+
+            <div>
+                <label>Maximum Power (bhp)</label>
+                <input type="number" step="any"
+                       name="max_power" min="0"
+                       placeholder="Example: 82"
+                       required>
+            </div>
+
+            <div>
+                <label>Number of Seats</label>
+                <select name="seats" required>
+                    <option value="">Select Seats</option>
+                    <option value="2">2 Seats</option>
+                    <option value="4">4 Seats</option>
+                    <option value="5">5 Seats</option>
+                    <option value="6">6 Seats</option>
+                    <option value="7">7 Seats</option>
+                    <option value="8">8 Seats</option>
+                    <option value="9">9 Seats</option>
+                </select>
+            </div>
+
+        </div>
+
+
+        <div class="buttons">
+
+            <button type="submit" class="predict-button" id="predictBtn">
+                Predict Car Price 🚀
+            </button>
+
+            <button type="reset" class="reset-button">
+                Clear Form ↺
+            </button>
+
+        </div>
+
+    </form>
+
+
+    {% if prediction is not none %}
+
+    <div class="result">
+
+        <h2>🎉 Estimated Car Price</h2>
+
+       <h1>₹ {{ prediction | inr }}</h1>
+
+        <p>Your car's predicted selling price</p>
+
+    </div>
+
+    {% endif %}
+
+
+    {% if error %}
+
+    <div class="error">
+        ⚠️ {{ error }}
+    </div>
+
+    {% endif %}
+
+</div>
+
+
+<!-- Loading screen -->
+
+<div class="loading" id="loadingScreen">
+
+    <div class="spinner"></div>
+
+    <p>Calculating your car's value...</p>
+
+    <p>Please wait!</p>
+
+</div>
+
+
+<footer>
+
+    <p>© 2026 CarValue AI | Machine Learning Based Car Price Prediction</p>
+
+</footer>
+
+
+<script>
+
+    // Dark and light mode
+
+    function toggleTheme() {
+
+        document.body.classList.toggle("light-mode");
+
+        const isLight = document.body.classList.contains("light-mode");
+
+        localStorage.setItem("carvalue-theme", isLight ? "light" : "dark");
+
+        document.querySelector(".theme-button").textContent =
+            isLight ? "☀️ Theme" : "🌙 Theme";
+
+    }
+
+
+    // Restore saved theme
+
+    if (localStorage.getItem("carvalue-theme") === "light") {
+
+        document.body.classList.add("light-mode");
+
+        document.querySelector(".theme-button").textContent = "☀️ Theme";
+
+    }
+
+
+    // Loading animation when submitting
+
+    document.getElementById("carForm").addEventListener("submit", function(event) {
+
+        if (!this.checkValidity()) {
+            return;
+        }
+
+        document.getElementById("loadingScreen").style.display = "flex";
+
+        const button = document.getElementById("predictBtn");
+
+        button.disabled = true;
+
+        button.textContent = "Predicting...";
+
+    });
+
+
+    // Reset button behaviour
+
+    document.getElementById("carForm").addEventListener("reset", function() {
+
+        const button = document.getElementById("predictBtn");
+
+        button.disabled = false;
+
+        button.textContent = "Predict Car Price 🚀";
+
+    });
+
+</script>
+
+</body>
+</html>
